@@ -2,7 +2,7 @@
 
 I build high-performance control logic for hardware that refuses to cooperate. 
 
-I specialize in the "Dark Matter" of systems engineering: reverse-engineering proprietary protocols, stabilizing kernel-level synchronization, and modernizing industrial hardware. I thrive in the space between the PCB and the application layer—where the documentation ends and the logic begins.
+I specialize in the **Hardware-Software Boundary**: reverse-engineering proprietary protocols, stabilizing kernel-level synchronization, and modernizing industrial hardware. I thrive in the space where the documentation ends and the logic begins—translating noisy physical inputs into stable, production-grade systems.
 
 ---
 
@@ -42,12 +42,12 @@ Reverse-engineered proprietary protocols on obsolete industrial hardware to inte
 ## 🏗️ Technical Infrastructure
 - **Languages:** C/C++ (11+ years), Java, Firmware (MCUs), Python.
 - **Environment:** Linux (Debian/i3wm), PCB Design, Logic Analyzers, Oscilloscopes.
-- **Workflow:** Structured logging via Obsidian/Git-Crypt. Intellectual honesty over prose.
+- **Workflow:** Structured technical logging and documentation via Obsidian/Git-Crypt.
 
 ---
 
 ## 🏗️ Deployment & Contact
-I’m at my best when I can touch the hardware (Ender, PCBs, MCUs), talk logic with an Architect, and be left alone to "lash it up" until it works. 
+I’m at my best when I can work directly with hardware, collaborate with lead architects on system design, and iterate until the solution is robust.
 
 **Location:** Manchester, UK (Available for R&D/Systems roles)
-**Current Status:** Operating from "Homer" & "Flanders" | Solving the hard problems.
+**Current Status:** Active in the OpenPnP and SDL communities.
