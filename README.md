@@ -34,6 +34,11 @@ I have authored over 20+ feature branches and logic prototypes for the OpenPnP e
 **The Fix:** Identified a race condition in kernel-level synchronization primitives. Replaced `INFINITE` blocking with bounded, 200ms defensive polling.
 **Impact:** My fix is part of the mainline SDL source, stabilizing audio for thousands of applications globally.
 
+### [Armbian / Raspberry Pi 2 Kernel DMA Fix](https://github.com/armbian/build/pull/10355)
+**The Problem:** Bringing up Raspberry Pi 2 (BCM2836) support in the Armbian build framework, the kernel panicked under QEMU — `VFS: Unable to mount root fs`, zero partitions ever detected on the SD card.
+**The Fix:** Built a full gdb/QEMU kernel debugging environment from scratch (DWARF-enabled kernel rebuild, live source-level stepping against the running kernel) to root-cause it down to a missing devicetree `dma-ranges` window: the SD host controller's own MMIO register address fell outside the declared RAM-only DMA bus alias, so the kernel's address-translation lookup silently failed and the driver never completed a transfer.
+**Impact:** Verified end-to-end — kernel boots, root filesystem mounts, init launches. Testing also showed the *existing* upstream kernel fix for this exact driver ([raspberrypi/linux #7136](https://github.com/raspberrypi/linux/issues/7136#issuecomment-5207917045)) was incomplete for this SoC; posted the analysis directly to the upstream maintainers and opened a PR against `armbian/build`.
+
 ### Zevatech Resurrection & Jaguar Jigs
 Reverse-engineered proprietary protocols on obsolete industrial hardware to integrate into modern R&D stacks. I specialize in "Logic Breaching" where manufacturers have long since abandoned support.
 
