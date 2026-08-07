@@ -1,58 +1,56 @@
-# Matt Brocklehurst | R&D C++ Programmer & Systems Architect
+# Matt Brocklehurst
 
-I build high-performance control logic for hardware that refuses to cooperate. 
-
-I specialize in the **Hardware-Software Boundary**: reverse-engineering proprietary protocols, stabilizing kernel-level synchronization, and modernizing industrial hardware. I thrive in the space where the documentation ends and the logic begins—translating noisy physical inputs into stable, production-grade systems.
+R&D engineer. I end up wherever software meets hardware that won't cooperate — reverse-engineering protocols nobody documented, chasing kernel-level race conditions, keeping industrial hardware running long after the manufacturer stopped caring.
 
 ---
 
-## 🛠️ OpenPnP | Systems Architecture & Logic
-I have authored over 20+ feature branches and logic prototypes for the OpenPnP ecosystem, specializing in the intersection of G-code protocol breaching and high-speed vision-to-motion synchronization.
+## OpenPnP
 
-### 🎯 Motion Control & G-Code Protocols
-* **[Fiducial Homing (PR-310/345)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-310-fiducial-homing-gcode)**: Custom G-code sequences for high-precision machine homing via optical fiducial recognition.
-* **[Error Regex Handling (PR-372)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-372-error-regex-handling)**: Robust serial response parsing to handle non-standard controller feedback during protocol breaching.
-* **[Vacuum Detection (PR-373)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-373-vacuum-detect-sense)**: Integrated hardware-level sensor feedback into placement logic to prevent "dropped-part" air-shots.
+20+ feature branches and logic prototypes for the OpenPnP ecosystem — mostly G-code protocol work and vision-to-motion synchronization.
 
-### 🧪 Material Dispensing (Paste/Glue)
-* **[G-Code Dispense Core (PR-312/552)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-552-gcode-paste-dispenser-logic)**: Architected core logic for solder paste and glue dispensing, managing synchronized extrusion with XYZ motion.
-* **[Alignment Dispense Logic (PR-464)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-464-alignment-dispense-logic-v2)**: V2 logic for part-alignment-aware dispensing, ensuring volumetric accuracy on skewed footprints.
+### Motion control & G-code
+* **[Fiducial homing (PR-310/345)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-310-fiducial-homing-gcode)**: G-code sequences for high-precision homing via optical fiducial recognition.
+* **[Error regex handling (PR-372)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-372-error-regex-handling)**: Serial response parsing for controllers that don't return standard feedback.
+* **[Vacuum detection (PR-373)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-373-vacuum-detect-sense)**: Hardware-level sensor feedback wired into placement logic to catch dropped-part air-shots.
 
-### 👁️ Vision & Part Alignment
-* **[Multi-Part Aligner (PR-551)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-551-multi-part-aligner)**: Optimized vision pipelines for batch-processing part alignment, reducing per-placement latency.
-* **[Loose Part Feeder (PR-320/374)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-374-loose-part-feeder-v2)**: Advanced vision-based part recognition for non-strip-fed components (loose-part picking).
+### Dispensing (paste/glue)
+* **[G-code dispense core (PR-312/552)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-552-gcode-paste-dispenser-logic)**: Core logic for solder paste and glue dispensing — extrusion synchronized with XYZ motion.
+* **[Alignment-aware dispensing (PR-464)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-464-alignment-dispense-logic-v2)**: V2 logic that keeps volumetric accuracy on skewed footprints.
 
-### 📟 Legacy Hardware Modernization
-* **[Zevatech Resurrection](https://github.com/mattbrocklehurst/openpnp/tree/zevatech)**: Primary R&D branch for reverse-engineering and modernizing legacy Zevatech SMT hardware.
+### Vision & part alignment
+* **[Multi-part aligner (PR-551)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-551-multi-part-aligner)**: Batch-processes part alignment, cut per-placement latency.
+* **[Loose part feeder (PR-320/374)](https://github.com/mattbrocklehurst/openpnp/tree/legacy/pr-374-loose-part-feeder-v2)**: Vision-based recognition for non-strip-fed, loose-picked components.
 
----
-
-## 🛡️ The "Fixer" Proof-of-Work
-
-### [SDL (Simple DirectMedia Layer)](https://github.com/mattbrocklehurst/SDL/tree/feature/wasapi-deadlock-fix)
-**The Problem:** Catastrophic system hang in the Windows WASAPI audio backend during device hot-plugging.
-**The Fix:** Identified a race condition in kernel-level synchronization primitives. Replaced `INFINITE` blocking with bounded, 200ms defensive polling.
-**Impact:** My fix is part of the mainline SDL source, stabilizing audio for thousands of applications globally.
-
-### [Armbian / Raspberry Pi 2 Kernel DMA Fix](https://github.com/armbian/build/pull/10355)
-**The Problem:** Bringing up Raspberry Pi 2 (BCM2836) support in the Armbian build framework, the kernel panicked under QEMU — `VFS: Unable to mount root fs`, zero partitions ever detected on the SD card.
-**The Fix:** Built a full gdb/QEMU kernel debugging environment from scratch (DWARF-enabled kernel rebuild, live source-level stepping against the running kernel) to root-cause it down to a missing devicetree `dma-ranges` window: the SD host controller's own MMIO register address fell outside the declared RAM-only DMA bus alias, so the kernel's address-translation lookup silently failed and the driver never completed a transfer.
-**Impact:** Verified end-to-end — kernel boots, root filesystem mounts, init launches. Testing also showed the *existing* upstream kernel fix for this exact driver ([raspberrypi/linux #7136](https://github.com/raspberrypi/linux/issues/7136#issuecomment-5207917045)) was incomplete for this SoC; posted the analysis directly to the upstream maintainers and opened a PR against `armbian/build`.
-
-### Zevatech Resurrection & Jaguar Jigs
-Reverse-engineered proprietary protocols on obsolete industrial hardware to integrate into modern R&D stacks. I specialize in "Logic Breaching" where manufacturers have long since abandoned support.
+### Legacy hardware
+* **[Zevatech resurrection](https://github.com/mattbrocklehurst/openpnp/tree/zevatech)**: Reverse-engineering and modernizing a decommissioned Zevatech pick-and-place machine — see below.
 
 ---
 
-## 🏗️ Technical Infrastructure
-- **Languages:** C/C++ (11+ years), Java, Firmware (MCUs), Python.
-- **Environment:** Linux (Debian/i3wm), PCB Design, Logic Analyzers, Oscilloscopes.
-- **Workflow:** Structured technical logging and documentation via Obsidian/Git-Crypt.
+## Real bugs, fixed
+
+### [SDL2 (Simple DirectMedia Layer)](https://github.com/mattbrocklehurst/SDL/tree/feature/wasapi-deadlock-fix)
+**Problem:** Windows WASAPI audio backend hung on device hot-plugging.
+**Fix:** Race condition in kernel-level synchronization primitives — traced it with WinDbg, replaced `INFINITE` blocking with bounded 200ms defensive polling.
+**Impact:** In mainline SDL now, quietly keeping a lot of downstream games and industrial UIs from hanging.
+
+### Armbian / Raspberry Pi kernel DMA fix ([Pi 2](https://github.com/armbian/build/pull/10355), [Pi 3](https://github.com/armbian/build/pull/10364))
+**Problem:** Bringing up BCM2836/BCM2837 (Pi 2/3) support in Armbian, the kernel panicked under QEMU — `VFS: Unable to mount root fs`, zero partitions ever detected.
+**Fix:** Built a gdb/QEMU kernel debugging setup from scratch (DWARF-enabled kernel, live source-level stepping against the running kernel) and traced it to a missing devicetree `dma-ranges` window — the SD host controller's MMIO address fell outside the declared RAM-only DMA bus alias, so address translation silently failed and the driver never completed a transfer. Also found the existing upstream fix for this driver ([raspberrypi/linux #7136](https://github.com/raspberrypi/linux/issues/7136#issuecomment-5207917045)) was incomplete for this SoC and reported it directly to the maintainers.
+**Impact:** Both boards verified end-to-end — the Pi 3 fix is confirmed on physical hardware, not just QEMU. Both PRs open against `armbian/build`.
+
+### Zevatech PM-560 resurrection
+No schematics, no source, no vendor support, no one left at the company who remembered the protocol. Reverse-engineered the signal logic with a logic analyzer, then wrote a modern C++ firmware layer to drive the original 1990s motor controllers and solenoids directly under a PC-based control stack.
 
 ---
 
-## 🏗️ Deployment & Contact
-I’m at my best when I can work directly with hardware, collaborate with lead architects on system design, and iterate until the solution is robust.
+## Stack
 
-**Location:** Manchester, UK (Available for R&D/Systems roles)
-**Current Status:** Active in the OpenPnP and SDL communities.
+* **Languages:** C/C++ (11+ years), Java, MCU firmware, Python
+* **Environment:** Linux (Debian/i3wm), PCB design, logic analyzers, oscilloscopes
+* **Notes:** Obsidian + git-crypt
+
+---
+
+## Contact
+
+Manchester, UK. Available for R&D/systems roles. Currently active in the OpenPnP and SDL communities.
